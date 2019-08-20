@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zylear.equation.editor.dao.mybatis.equation.editor.EquationMapper">
+  <resultMap id="BaseResultMap" type="com.zylear.equation.editor.domain.Equation">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="equation_type" jdbcType="TINYINT" property="equationType" />
+    <result column="equation_category" jdbcType="TINYINT" property="equationCategory" />
+    <result column="equaiont_name" jdbcType="VARCHAR" property="equaiontName" />
+    <result column="equation_img" jdbcType="VARCHAR" property="equationImg" />
+    <result column="is_deleted" jdbcType="TINYINT" property="isDeleted" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="last_update_time" jdbcType="TIMESTAMP" property="lastUpdateTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.zylear.equation.editor.domain.Equation">
+    <result column="equaiont_latex" jdbcType="LONGVARCHAR" property="equaiontLatex" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, equation_type, equation_category, equaiont_name, equation_img, is_deleted, create_time, 
+    last_update_time
+  </sql>
+  <sql id="Blob_Column_List">
+    equaiont_latex
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_equation
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_equation
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zylear.equation.editor.domain.Equation">
+    insert into t_equation (id, equation_type, equation_category, 
+      equaiont_name, equation_img, is_deleted, 
+      create_time, last_update_time, equaiont_latex
+      )
+    values (#{id,jdbcType=INTEGER}, #{equationType,jdbcType=TINYINT}, #{equationCategory,jdbcType=TINYINT}, 
+      #{equaiontName,jdbcType=VARCHAR}, #{equationImg,jdbcType=VARCHAR}, #{isDeleted,jdbcType=TINYINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{lastUpdateTime,jdbcType=TIMESTAMP}, #{equaiontLatex,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zylear.equation.editor.domain.Equation">
+    insert into t_equation
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="equationType != null">
+        equation_type,
+      </if>
+      <if test="equationCategory != null">
+        equation_category,
+      </if>
+      <if test="equaiontName != null">
+        equaiont_name,
+      </if>
+      <if test="equationImg != null">
+        equation_img,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="lastUpdateTime != null">
+        last_update_time,
+      </if>
+      <if test="equaiontLatex != null">
+        equaiont_latex,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="equationType != null">
+        #{equationType,jdbcType=TINYINT},
+      </if>
+      <if test="equationCategory != null">
+        #{equationCategory,jdbcType=TINYINT},
+      </if>
+      <if test="equaiontName != null">
+        #{equaiontName,jdbcType=VARCHAR},
+      </if>
+      <if test="equationImg != null">
+        #{equationImg,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateTime != null">
+        #{lastUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="equaiontLatex != null">
+        #{equaiontLatex,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zylear.equation.editor.domain.Equation">
+    update t_equation
+    <set>
+      <if test="equationType != null">
+        equation_type = #{equationType,jdbcType=TINYINT},
+      </if>
+      <if test="equationCategory != null">
+        equation_category = #{equationCategory,jdbcType=TINYINT},
+      </if>
+      <if test="equaiontName != null">
+        equaiont_name = #{equaiontName,jdbcType=VARCHAR},
+      </if>
+      <if test="equationImg != null">
+        equation_img = #{equationImg,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateTime != null">
+        last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="equaiontLatex != null">
+        equaiont_latex = #{equaiontLatex,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.zylear.equation.editor.domain.Equation">
+    update t_equation
+    set equation_type = #{equationType,jdbcType=TINYINT},
+      equation_category = #{equationCategory,jdbcType=TINYINT},
+      equaiont_name = #{equaiontName,jdbcType=VARCHAR},
+      equation_img = #{equationImg,jdbcType=VARCHAR},
+      is_deleted = #{isDeleted,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
+      equaiont_latex = #{equaiontLatex,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zylear.equation.editor.domain.Equation">
+    update t_equation
+    set equation_type = #{equationType,jdbcType=TINYINT},
+      equation_category = #{equationCategory,jdbcType=TINYINT},
+      equaiont_name = #{equaiontName,jdbcType=VARCHAR},
+      equation_img = #{equationImg,jdbcType=VARCHAR},
+      is_deleted = #{isDeleted,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

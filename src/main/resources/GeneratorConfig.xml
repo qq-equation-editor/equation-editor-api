@@ -8,13 +8,13 @@
     <!--E:\maven\repository\mysql\mysql-connector-java\5.1.44\mysql-connector-java-5.1.44.jar-->
     <!--D:\repo\mysql\mysql-connector-java\5.1.41\mysql-connector-java-5.1.41.jar-->
     <classPathEntry
-            location="C:\Develop\maven-repository\mysql\mysql-connector-java\5.1.44\mysql-connector-java-5.1.44.jar"/>
-    <context id="internal_control" targetRuntime="MyBatis3">
+            location="D:\repo\mysql\mysql-connector-java\5.1.41\mysql-connector-java-5.1.41.jar"/>
+    <context id="equation_editor" targetRuntime="MyBatis3">
         <commentGenerator>
             <property name="suppressAllComments" value="true"/>
         </commentGenerator>
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://localhost:3306/internal_control?characterEncoding=UTF-8"
+                        connectionURL="jdbc:mysql://localhost:3306/equation_editor?characterEncoding=UTF-8"
                         userId="root"
                         password="root">
         </jdbcConnection>
@@ -22,24 +22,39 @@
             <property name="forceBigDecimals" value="false"/>
         </javaTypeResolver>
 
-        <javaModelGenerator targetPackage="com.zylear.internalcontrol.admin.domain" targetProject="src/main/java">
+        <javaModelGenerator targetPackage="com.zylear.equation.editor.domain" targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
             <property name="trimStrings" value="false"/>
         </javaModelGenerator>
 
-        <sqlMapGenerator targetPackage="com.zylear.internalcontrol.admin.dao.mybatis.internalcontrol"
+        <sqlMapGenerator targetPackage="com.zylear.equation.editor.dao.mybatis.equation.editor"
                          targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
 
         <javaClientGenerator type="XMLMAPPER"
-                             targetPackage="com.zylear.internalcontrol.admin.dao.mybatis.internalcontrol"
+                             targetPackage="com.zylear.equation.editor.dao.mybatis.equation.editor"
                              targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
 
         <table tableName="t_user" domainObjectName="User"
+               enableCountByExample="false" enableSelectByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false">
+        </table>
+
+        <table tableName="t_equation" domainObjectName="Equation"
+               enableCountByExample="false" enableSelectByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false">
+        </table>
+
+        <table tableName="t_equation_symbol" domainObjectName="EquationSymbol"
+               enableCountByExample="false" enableSelectByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false">
+        </table>
+
+        <table tableName="t_user_equation" domainObjectName="UserEquation"
                enableCountByExample="false" enableSelectByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false">
         </table>

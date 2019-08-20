@@ -19,17 +19,17 @@ import java.util.List;
  * @author 28444
  * @date 2018/1/10.
  */
-//@Configuration
-//@MapperScan(basePackages = DataSourceInternalControlConfig.SCAN_PACKAGE)
-//@EnableTransactionManagement
-public class DataSourceInternalControlConfig {
+@Configuration
+@MapperScan(basePackages = DataSourceEquationEditorConfig.SCAN_PACKAGE)
+@EnableTransactionManagement
+public class DataSourceEquationEditorConfig {
 
     public final static String DATA_SOURCE = "dataSourceEquationEditor";
     public final static String SCAN_PACKAGE = "com.zylear.equation.editor.dao.mybatis.equation.editor";
     public final static String SQL_SESSION_FACTORY = "sqlSessionFactoryEquationEditor";
     public final static String TX_MANAGER = "txManagerEquationEditor";
     public final static String SQL_SESSION_TEMPLATE = "sqlSessionTemplateEquationEditor";
-    public final static List<String> XML_PATHS = Arrays.asList("classpath:com/zylear/equation/editor/admin/dao/mybatis/equation/editor/*.xml");
+    public final static List<String> XML_PATHS = Arrays.asList("classpath:com/zylear/equation/editor/dao/mybatis/equation/editor/*.xml");
     @Value("${database.equation.editor.username}")
     private String username;
     @Value("${database.equation.editor.password}")
