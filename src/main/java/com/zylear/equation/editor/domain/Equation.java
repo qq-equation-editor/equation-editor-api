@@ -9,7 +9,7 @@ public class Equation {
 
     private Byte equationCategory;
 
-    private String equaiontName;
+    private String equationName;
 
     private String equationImg;
 
@@ -19,7 +19,7 @@ public class Equation {
 
     private Date lastUpdateTime;
 
-    private String equaiontLatex;
+    private String equationLatex;
 
     public Integer getId() {
         return id;
@@ -45,12 +45,12 @@ public class Equation {
         this.equationCategory = equationCategory;
     }
 
-    public String getEquaiontName() {
-        return equaiontName;
+    public String getEquationName() {
+        return equationName;
     }
 
-    public void setEquaiontName(String equaiontName) {
-        this.equaiontName = equaiontName;
+    public void setEquationName(String equationName) {
+        this.equationName = equationName;
     }
 
     public String getEquationImg() {
@@ -85,11 +85,11 @@ public class Equation {
         this.lastUpdateTime = lastUpdateTime;
     }
 
-    public String getEquaiontLatex() {
-        return equaiontLatex;
+    public String getEquationLatex() {
+        return equationLatex;
     }
 
-    public void setEquaiontLatex(String equaiontLatex) {
-        this.equaiontLatex = equaiontLatex;
+    public void setEquationLatex(String equationLatex) {
+        this.equationLatex = equationLatex;
     }
 }

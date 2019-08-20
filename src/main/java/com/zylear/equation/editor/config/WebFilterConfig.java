@@ -1,5 +1,8 @@
 package com.zylear.equation.editor.config;
 
+import com.zylear.equation.editor.filter.GeneralFilter;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -9,22 +12,16 @@ import org.springframework.context.annotation.Configuration;
 public class WebFilterConfig {
 
 
-//    @Bean
-//    public FilterRegistrationBean adminFilterRegistrationBean() {
-//        FilterRegistrationBean registrationBean = new FilterRegistrationBean();
-//        registrationBean.setName("adminFilter");
-//        AdminFilter adminFilter = new AdminFilter();
-//        registrationBean.setFilter(adminFilter);
-//        registrationBean.addUrlPatterns("/asset/*");
-//        registrationBean.addUrlPatterns("/bidding/*");
-//        registrationBean.addUrlPatterns("/budget/*");
-//        registrationBean.addUrlPatterns("/contract/*");
-//        registrationBean.addUrlPatterns("/project/*");
-//        String excludePages = "/bidding/get-bidding-content,/project/show-project,/contract/show-contract";
-//        registrationBean.addInitParameter("excludePages", excludePages);
-//        registrationBean.setOrder(10);
-//        return registrationBean;
-//    }
+    @Bean
+    public FilterRegistrationBean generalFilterRegistrationBean() {
+        FilterRegistrationBean registrationBean = new FilterRegistrationBean();
+        registrationBean.setName("adminFilter");
+        GeneralFilter adminFilter = new GeneralFilter();
+        registrationBean.setFilter(adminFilter);
+        registrationBean.addUrlPatterns("/*");
+        registrationBean.setOrder(10);
+        return registrationBean;
+    }
 //
 //    @Bean
 //    public FilterRegistrationBean bidderFilterRegistrationBean() {

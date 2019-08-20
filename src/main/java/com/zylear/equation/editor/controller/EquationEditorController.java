@@ -1,19 +1,17 @@
 package com.zylear.equation.editor.controller;
 
-import com.zylear.equation.editor.bean.SymbolInfoBean;
 import com.zylear.equation.editor.domain.Equation;
 import com.zylear.equation.editor.domain.EquationSymbol;
 import com.zylear.equation.editor.service.EquationService;
 import com.zylear.equation.editor.service.EquationSymbolService;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -35,10 +33,9 @@ public class EquationEditorController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/template-equation", method = RequestMethod.GET)
-    public List<Equation> getBiddingList() {
-//        List<Equation>
-        return null;
+    @RequestMapping(value = "/template-equation/{equationCategory}", method = RequestMethod.GET)
+    public List<Equation> templateEquation(@PathVariable Byte equationCategory) {
+        return equationService.findByEquationTypeAndEquationCategory((byte) 1, equationCategory);
     }
 
 
