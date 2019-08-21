@@ -2,6 +2,7 @@ package com.zylear.equation.editor.service;
 
 import com.zylear.equation.editor.domain.Equation;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -11,4 +12,7 @@ public interface EquationService {
 
     List<Equation> findByEquationTypeAndEquationCategory(Byte equationType, Byte equationCategory);
 
+    List<Equation> findByIds(Collection<Integer> ids);
+
+    void insert(Equation equation);
 }

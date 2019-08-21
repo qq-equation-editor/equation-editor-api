@@ -6,6 +6,8 @@ import com.zylear.equation.editor.service.EquationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -21,5 +23,18 @@ public class EquationServiceImpl implements EquationService {
     @Override
     public List<Equation> findByEquationTypeAndEquationCategory(Byte equationType, Byte equationCategory) {
         return equationMapper.findByEquationTypeAndEquationCategory(equationType, equationCategory);
+    }
+
+    @Override
+    public List<Equation> findByIds(Collection<Integer> ids) {
+        if (ids == null || ids.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return equationMapper.findByIds(ids);
+    }
+
+    @Override
+    public void insert(Equation equation) {
+        equationMapper.insert(equation);
     }
 }

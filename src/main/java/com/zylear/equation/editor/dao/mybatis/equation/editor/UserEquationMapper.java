@@ -1,8 +1,12 @@
 package com.zylear.equation.editor.dao.mybatis.equation.editor;
 
 import com.zylear.equation.editor.domain.UserEquation;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface UserEquationMapper {
+
     int deleteByPrimaryKey(Integer id);
 
     int insert(UserEquation record);
@@ -14,4 +18,7 @@ public interface UserEquationMapper {
     int updateByPrimaryKeySelective(UserEquation record);
 
     int updateByPrimaryKey(UserEquation record);
+
+
+    List<UserEquation> findByUserId(@Param("userId") Integer userId);
 }

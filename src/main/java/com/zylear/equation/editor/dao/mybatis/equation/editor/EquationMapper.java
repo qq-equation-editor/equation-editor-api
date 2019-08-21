@@ -3,6 +3,7 @@ package com.zylear.equation.editor.dao.mybatis.equation.editor;
 import com.zylear.equation.editor.domain.Equation;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface EquationMapper {
@@ -24,4 +25,6 @@ public interface EquationMapper {
 
     List<Equation> findByEquationTypeAndEquationCategory(@Param("equationType") Byte equationType,
                                                          @Param("equationCategory") Byte equationCategory);
+
+    List<Equation> findByIds(@Param("ids") Collection<Integer> ids);
 }

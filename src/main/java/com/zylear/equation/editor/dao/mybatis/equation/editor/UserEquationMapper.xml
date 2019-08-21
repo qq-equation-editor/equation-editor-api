@@ -103,4 +103,13 @@
       last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="findByUserId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_user_equation
+    where user_id = #{userId,jdbcType=INTEGER}
+    AND is_deleted= 0
+  </select>
+
 </mapper>
