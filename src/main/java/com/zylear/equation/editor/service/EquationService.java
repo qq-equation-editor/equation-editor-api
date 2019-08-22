@@ -15,4 +15,8 @@ public interface EquationService {
     List<Equation> findByIds(Collection<Integer> ids);
 
     void insert(Equation equation);
+
+    Equation findById(Integer equationId);
+
+    void markDeleted(Integer equationId);
 }

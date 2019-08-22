@@ -45,4 +45,14 @@ public class UserEquationTxManager {
         userEquationService.insert(userEquation);
     }
 
+    @Transactional(DataSourceEquationEditorConfig.TX_MANAGER)
+    public void deleteUserEquation(Integer userId, Integer equationId) {
+        UserEquation userEquation = userEquationService.findByUserIdAndEquationId(userId, equationId);
+        if (userEquation == null) {
+            return;
+        }
+        equationService.markDeleted(equationId);
+        userEquationService.markDeleted(userId, equationId);
+
+    }
 }

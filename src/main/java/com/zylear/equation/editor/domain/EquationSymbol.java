@@ -19,6 +19,16 @@ public class EquationSymbol {
 
     private String symbolHtmlContent;
 
+    private Boolean isLeft;
+
+    public Boolean getIsLeft() {
+        return isLeft;
+    }
+
+    public void setIsLeft(Boolean isLeft) {
+        this.isLeft = isLeft;
+    }
+
     public Integer getId() {
         return id;
     }

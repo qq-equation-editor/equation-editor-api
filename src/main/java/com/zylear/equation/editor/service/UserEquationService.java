@@ -12,4 +12,8 @@ public interface UserEquationService {
     List<UserEquation> findByUserId(Integer userId);
 
     void insert(UserEquation userEquation);
+
+    void markDeleted(Integer userId, Integer equationId);
+
+    UserEquation findByUserIdAndEquationId(Integer userId, Integer equationId);
 }

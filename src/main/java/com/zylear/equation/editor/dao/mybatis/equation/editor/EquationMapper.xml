@@ -184,5 +184,21 @@
         </foreach>
     </select>
 
+    <select id="findById" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from t_equation
+        where
+        id = #{id,jdbcType=INTEGER}
+
+    </select>
+
+    <update id="markDeleted">
+        UPDATE t_equation
+        SET is_deleted = 1
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
 
 </mapper>

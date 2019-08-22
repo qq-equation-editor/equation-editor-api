@@ -6,6 +6,7 @@
         <result column="symbol_name" jdbcType="VARCHAR" property="symbolName"/>
         <result column="symbol_category" jdbcType="TINYINT" property="symbolCategory"/>
         <result column="symbol_latex" jdbcType="VARCHAR" property="symbolLatex"/>
+        <result column="is_left" jdbcType="TINYINT" property="isLeft"/>
         <result column="is_deleted" jdbcType="TINYINT" property="isDeleted"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="last_update_time" jdbcType="TIMESTAMP" property="lastUpdateTime"/>
@@ -14,136 +15,11 @@
         <result column="symbol_html_content" jdbcType="LONGVARCHAR" property="symbolHtmlContent"/>
     </resultMap>
     <sql id="Base_Column_List">
-        id, symbol_name, symbol_category, symbol_latex, is_deleted, create_time, last_update_time
+        id, symbol_name, symbol_category, symbol_latex, is_left, is_deleted, create_time, last_update_time
     </sql>
     <sql id="Blob_Column_List">
         symbol_html_content
     </sql>
-    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
-        select
-        <include refid="Base_Column_List"/>
-        ,
-        <include refid="Blob_Column_List"/>
-        from t_equation_symbol
-        where id = #{id,jdbcType=INTEGER}
-    </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-        DELETE FROM t_equation_symbol
-        WHERE id = #{id,jdbcType=INTEGER}
-    </delete>
-    <insert id="insert" parameterType="com.zylear.equation.editor.domain.EquationSymbol">
-        INSERT INTO t_equation_symbol (id, symbol_name, symbol_category,
-                                       symbol_latex, is_deleted, create_time,
-                                       last_update_time, symbol_html_content
-        )
-        VALUES (#{id,jdbcType=INTEGER}, #{symbolName,jdbcType=VARCHAR}, #{symbolCategory,jdbcType=TINYINT},
-                #{symbolLatex,jdbcType=VARCHAR}, #{isDeleted,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP},
-                #{lastUpdateTime,jdbcType=TIMESTAMP}, #{symbolHtmlContent,jdbcType=LONGVARCHAR}
-        )
-    </insert>
-    <insert id="insertSelective" parameterType="com.zylear.equation.editor.domain.EquationSymbol">
-        insert into t_equation_symbol
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                id,
-            </if>
-            <if test="symbolName != null">
-                symbol_name,
-            </if>
-            <if test="symbolCategory != null">
-                symbol_category,
-            </if>
-            <if test="symbolLatex != null">
-                symbol_latex,
-            </if>
-            <if test="isDeleted != null">
-                is_deleted,
-            </if>
-            <if test="createTime != null">
-                create_time,
-            </if>
-            <if test="lastUpdateTime != null">
-                last_update_time,
-            </if>
-            <if test="symbolHtmlContent != null">
-                symbol_html_content,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                #{id,jdbcType=INTEGER},
-            </if>
-            <if test="symbolName != null">
-                #{symbolName,jdbcType=VARCHAR},
-            </if>
-            <if test="symbolCategory != null">
-                #{symbolCategory,jdbcType=TINYINT},
-            </if>
-            <if test="symbolLatex != null">
-                #{symbolLatex,jdbcType=VARCHAR},
-            </if>
-            <if test="isDeleted != null">
-                #{isDeleted,jdbcType=TINYINT},
-            </if>
-            <if test="createTime != null">
-                #{createTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="lastUpdateTime != null">
-                #{lastUpdateTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="symbolHtmlContent != null">
-                #{symbolHtmlContent,jdbcType=LONGVARCHAR},
-            </if>
-        </trim>
-    </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.zylear.equation.editor.domain.EquationSymbol">
-        update t_equation_symbol
-        <set>
-            <if test="symbolName != null">
-                symbol_name = #{symbolName,jdbcType=VARCHAR},
-            </if>
-            <if test="symbolCategory != null">
-                symbol_category = #{symbolCategory,jdbcType=TINYINT},
-            </if>
-            <if test="symbolLatex != null">
-                symbol_latex = #{symbolLatex,jdbcType=VARCHAR},
-            </if>
-            <if test="isDeleted != null">
-                is_deleted = #{isDeleted,jdbcType=TINYINT},
-            </if>
-            <if test="createTime != null">
-                create_time = #{createTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="lastUpdateTime != null">
-                last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="symbolHtmlContent != null">
-                symbol_html_content = #{symbolHtmlContent,jdbcType=LONGVARCHAR},
-            </if>
-        </set>
-        where id = #{id,jdbcType=INTEGER}
-    </update>
-    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.zylear.equation.editor.domain.EquationSymbol">
-        UPDATE t_equation_symbol
-        SET symbol_name         = #{symbolName,jdbcType=VARCHAR},
-            symbol_category     = #{symbolCategory,jdbcType=TINYINT},
-            symbol_latex        = #{symbolLatex,jdbcType=VARCHAR},
-            is_deleted          = #{isDeleted,jdbcType=TINYINT},
-            create_time         = #{createTime,jdbcType=TIMESTAMP},
-            last_update_time    = #{lastUpdateTime,jdbcType=TIMESTAMP},
-            symbol_html_content = #{symbolHtmlContent,jdbcType=LONGVARCHAR}
-        WHERE id = #{id,jdbcType=INTEGER}
-    </update>
-    <update id="updateByPrimaryKey" parameterType="com.zylear.equation.editor.domain.EquationSymbol">
-        UPDATE t_equation_symbol
-        SET symbol_name      = #{symbolName,jdbcType=VARCHAR},
-            symbol_category  = #{symbolCategory,jdbcType=TINYINT},
-            symbol_latex     = #{symbolLatex,jdbcType=VARCHAR},
-            is_deleted       = #{isDeleted,jdbcType=TINYINT},
-            create_time      = #{createTime,jdbcType=TIMESTAMP},
-            last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP}
-        WHERE id = #{id,jdbcType=INTEGER}
-    </update>
 
     <select id="findAll" resultMap="ResultMapWithBLOBs">
         select

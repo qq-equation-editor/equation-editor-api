@@ -26,4 +26,14 @@ public class UserEquationServiceImpl implements UserEquationService {
     public void insert(UserEquation userEquation) {
         userEquationMapper.insert(userEquation);
     }
+
+    @Override
+    public void markDeleted(Integer userId, Integer equationId) {
+        userEquationMapper.markDeleted(userId, equationId);
+    }
+
+    @Override
+    public UserEquation findByUserIdAndEquationId(Integer userId, Integer equationId) {
+        return userEquationMapper.findByUserIdAndEquationId(userId, equationId);
+    }
 }

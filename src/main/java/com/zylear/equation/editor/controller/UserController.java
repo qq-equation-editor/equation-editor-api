@@ -2,6 +2,7 @@ package com.zylear.equation.editor.controller;
 
 import com.sun.org.apache.regexp.internal.RE;
 import com.zylear.equation.editor.bean.BaseResponse;
+import com.zylear.equation.editor.bean.IsLoginResponse;
 import com.zylear.equation.editor.bean.UserEquationResponse;
 import com.zylear.equation.editor.domain.Equation;
 import com.zylear.equation.editor.domain.EquationSymbol;
@@ -49,6 +50,31 @@ public class UserController {
     @Autowired
     private UserEquationTxManager userEquationTxManager;
 
+
+    @ResponseBody
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    public BaseResponse ogout(HttpServletRequest request) {
+      request.getSession().removeAttribute("userName");
+        return BaseResponse.SIMPLE_SUCC_RESPONSE;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/is-login", method = RequestMethod.GET)
+    public IsLoginResponse isLogin(HttpServletRequest request) {
+        IsLoginResponse response = new IsLoginResponse();
+        String userName = (String) request.getSession().getAttribute("userName");
+        if (StringUtils.isEmpty(userName)) {
+            response.setBaseResponse(new BaseResponse(2, "请先登录"));
+            return response;
+        } else {
+            response.setBaseResponse(BaseResponse.SIMPLE_SUCC_RESPONSE);
+        }
+
+        response.setUserName(userName);
+        return response;
+    }
+
+
     @ResponseBody
     @RequestMapping(value = "/register-or-login", method = RequestMethod.POST)
     public BaseResponse registerOrLogin(@RequestParam("userName") String userName,
@@ -66,7 +92,7 @@ public class UserController {
                 request.getSession().setAttribute("userName", userName);
                 return BaseResponse.SIMPLE_SUCC_RESPONSE;
             } else {
-                return BaseResponse.SIMPLE_ERROR_RESPONSE;
+                return new BaseResponse(2, "密码不正确");
             }
         }
     }
@@ -87,7 +113,7 @@ public class UserController {
         UserEquationResponse response = new UserEquationResponse();
         String userName = (String) request.getSession().getAttribute("userName");
         if (StringUtils.isEmpty(userName)) {
-            response.setBaseResponse(BaseResponse.SIMPLE_ERROR_RESPONSE);
+            response.setBaseResponse(new BaseResponse(2, "请先登录"));
             return response;
         } else {
             response.setBaseResponse(BaseResponse.SIMPLE_SUCC_RESPONSE);
@@ -118,12 +144,12 @@ public class UserController {
                                     @RequestParam("equationLatex") String equationLatex) {
         String userName = (String) request.getSession().getAttribute("userName");
         if (StringUtils.isEmpty(userName)) {
-            return BaseResponse.SIMPLE_ERROR_RESPONSE;
+            return new BaseResponse(2, "请先登录");
         }
 
         User user = userService.findByUserName(userName);
         if (user == null) {
-            return BaseResponse.SIMPLE_ERROR_RESPONSE;
+            return new BaseResponse(2, "请先登录");
         }
         List<UserEquation> userEquations = userEquationService.findByUserId(user.getId());
         if (userEquations.size() > 5) {
@@ -133,10 +159,28 @@ public class UserController {
         List<Equation> equations = equationService.findByIds(ids);
         for (Equation equation : equations) {
             if (equation.getEquationName().equals(equationName)) {
-                return BaseResponse.SIMPLE_ERROR_RESPONSE;
+                return new BaseResponse(2, "公式名称重复，请换一个名称");
             }
         }
         userEquationTxManager.addUserEquation(user.getId(), equationName, equationLatex);
+        return BaseResponse.SIMPLE_SUCC_RESPONSE;
+    }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/delete-equation", method = RequestMethod.POST)
+    public BaseResponse deleteEquation(HttpServletRequest request,
+                                       @RequestParam("equationId") Integer equationId) {
+        String userName = (String) request.getSession().getAttribute("userName");
+        if (StringUtils.isEmpty(userName)) {
+            return new BaseResponse(2, "请先登录");
+        }
+        User user = userService.findByUserName(userName);
+        if (user == null) {
+            return new BaseResponse(2, "请先登录");
+        }
+
+        userEquationTxManager.deleteUserEquation(user.getId(), equationId);
         return BaseResponse.SIMPLE_SUCC_RESPONSE;
     }
 

@@ -37,4 +37,14 @@ public class EquationServiceImpl implements EquationService {
     public void insert(Equation equation) {
         equationMapper.insert(equation);
     }
+
+    @Override
+    public Equation findById(Integer equationId) {
+        return equationMapper.findById(equationId);
+    }
+
+    @Override
+    public void markDeleted(Integer equationId) {
+        equationMapper.markDeleted(equationId);
+    }
 }

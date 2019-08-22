@@ -27,4 +27,8 @@ public interface EquationMapper {
                                                          @Param("equationCategory") Byte equationCategory);
 
     List<Equation> findByIds(@Param("ids") Collection<Integer> ids);
+
+    Equation findById(@Param("id") Integer id);
+
+    void markDeleted(@Param("id") Integer id);
 }

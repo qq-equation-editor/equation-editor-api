@@ -21,4 +21,10 @@ public interface UserEquationMapper {
 
 
     List<UserEquation> findByUserId(@Param("userId") Integer userId);
+
+    void markDeleted(@Param("userId") Integer userId,
+                     @Param("equationId") Integer equationId);
+
+    UserEquation findByUserIdAndEquationId(@Param("userId") Integer userId,
+                                           @Param("equationId") Integer equationId);
 }
