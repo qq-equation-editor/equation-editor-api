@@ -1,14 +1,11 @@
 package com.zylear.equation.editor.controller;
 
-import com.sun.org.apache.regexp.internal.RE;
 import com.zylear.equation.editor.bean.BaseResponse;
 import com.zylear.equation.editor.bean.IsLoginResponse;
 import com.zylear.equation.editor.bean.UserEquationResponse;
 import com.zylear.equation.editor.domain.Equation;
-import com.zylear.equation.editor.domain.EquationSymbol;
 import com.zylear.equation.editor.domain.User;
 import com.zylear.equation.editor.domain.UserEquation;
-import com.zylear.equation.editor.enums.EquationType;
 import com.zylear.equation.editor.manager.UserEquationTxManager;
 import com.zylear.equation.editor.service.EquationService;
 import com.zylear.equation.editor.service.UserEquationService;
@@ -21,18 +18,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.imageio.ImageIO;
-import javax.imageio.stream.ImageOutputStream;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Created by xiezongyu on 2019/8/21.
@@ -54,7 +43,7 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
     public BaseResponse ogout(HttpServletRequest request) {
-      request.getSession().removeAttribute("userName");
+        request.getSession().removeAttribute("userName");
         return BaseResponse.SIMPLE_SUCC_RESPONSE;
     }
 
@@ -141,7 +130,8 @@ public class UserController {
     @RequestMapping(value = "/add-equation", method = RequestMethod.POST)
     public BaseResponse addEquation(HttpServletRequest request,
                                     @RequestParam("equationName") String equationName,
-                                    @RequestParam("equationLatex") String equationLatex) {
+                                    @RequestParam("equationLatex") String equationLatex,
+                                    @RequestParam("imageBase64") String imageBase64) {
         String userName = (String) request.getSession().getAttribute("userName");
         if (StringUtils.isEmpty(userName)) {
             return new BaseResponse(2, "请先登录");
@@ -162,7 +152,7 @@ public class UserController {
                 return new BaseResponse(2, "公式名称重复，请换一个名称");
             }
         }
-        userEquationTxManager.addUserEquation(user.getId(), equationName, equationLatex);
+        userEquationTxManager.addUserEquation(user.getId(), equationName, equationLatex, imageBase64);
         return BaseResponse.SIMPLE_SUCC_RESPONSE;
     }
 

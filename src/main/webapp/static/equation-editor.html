@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>公式编辑器</title>
+
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="matrix/v1/mathquill.css"/>
+    <link rel="stylesheet" href="custom/custom-common.css"/>
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-default "> <!--navbar-fixed-top-->
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="col-lg-offset-1 col-lg-1">
+
+        </div>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Equation Editor</a>
+        </div>
+
+        <!--<div class="row">-->
+
+
+        <!--</div>-->
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a id="userName" style="display: none" class="navbar-brand" href="#">xxx</a></li>
+                <!--onclick="logout()"-->
+
+                <li id="loginButton"><a href="#" onclick="$('#loginPanel').modal('show');">登录</a></li>
+                <li id="logoutButton" style="display: none"><a href="#" onclick="logout()">登出</a></li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+
+
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" id="loginPanel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">登录</h4>
+            </div>
+            <div class="modal-body">
+
+                <form role="form">
+                    <fieldset>
+                        <div class="form-group">
+                            <input class="form-control" placeholder="输入账号" id="account" type="text" autofocus>
+                        </div>
+
+                        <div class="form-group">
+                            <input class="form-control" placeholder="输入密码" id="password" type="password"
+                                   value="">
+                        </div>
+
+                        <!-- Change this to a button or input when using this as a form -->
+
+                        <a href="javascrip:void(0);" onclick="registerOrLogin()"
+                           class="btn btn-lg btn-success btn-block">注册或登录</a>
+                    </fieldset>
+                </form>
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div class="container-fluid">
+    <div class="row custom-content">
+
+        <form id="form">
+            <div class="col-lg-7 form-horizontal col-lg-offset-2">
+
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">选择符号</h3>
+                    </div>
+                    <div class="panel-body"><!--style="background-color: #cccdcf;"-->
+                        <p>LaTeX of what you typed: <span id="latex"></span></p>
+
+                        <div>
+
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab"
+                                                                          data-toggle="tab">符号组1</a></li>
+                                <li role="presentation"><a href="#profile" aria-controls="profile" role="tab"
+                                                           data-toggle="tab">符号组2</a></li>
+                                <li role="presentation"><a href="#messages" aria-controls="messages" role="tab"
+                                                           data-toggle="tab">符号组3</a></li>
+                                <li role="presentation"><a href="#settings" aria-controls="settings" role="tab"
+                                                           data-toggle="tab">符号组4</a></li>
+                            </ul>
+
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane active" id="home">
+                                    <div class="symbol-button-group group1">
+                                    </div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="profile">
+                                    <div class="symbol-button-group group2">
+                                    </div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="messages">
+                                    <div class="symbol-button-group group3">
+                                    </div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="settings">
+                                    <div class="symbol-button-group group4">
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">编辑公式</h3>
+                    </div>
+                    <div class="panel-body">
+
+                        <div id="math-field" class="equation-editor" style="font-size: 25px"></div>
+
+                        <div class="form-group">
+                            <div class="col-sm-2  col-sm-offset-8 control-label">
+                                <input id="equationName" type="text" class="form-control" placeholder="输入公式名称">
+                            </div>
+                            <div class="col-sm-2 ">
+                                <div class="text-left" style="padding-top: 7px;/*margin-left:-20px*/ ">
+                                    <button onclick="saveEquation()" type="button" class="btn btn-info">保存公式</button>
+                                </div>
+
+                            </div>
+                            <div class="col-sm-2 ">
+
+                                <div class="text-left" style="padding-top: 7px;/*margin-left:-20px*/ ">
+                                    <button onclick="test()" type="button" class="btn btn-info">test</button>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+
+            </div>
+
+
+            <div class="col-lg-2 form-horizontal">
+                <div class="panel panel-info" style="height: 770px">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">选择模板</h3>
+                    </div>
+                    <div class="panel-body" id="itemsPanel">
+
+                        <!-- Single button -->
+                        <div class="btn-group custom-button-group" style="width: 48%">
+                            <button type="button" style="width: 100%" class="btn btn-default dropdown-toggle"
+                                    data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                常用公式 <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a onclick="getTemplateEquation(1)">算数定律</a></li>
+                                <li><a onclick="getTemplateEquation(2)">应用题公式</a></li>
+                                <li><a onclick="getTemplateEquation(3)">乘法于因式分解</a></li>
+                                <li><a onclick="getTemplateEquation(4)">解析几何</a></li>
+                                <li><a onclick="getTemplateEquation(5)">一元二次方程</a></li>
+
+                            </ul>
+                        </div>
+
+                        <!-- Single button -->
+                        <div class="btn-group custom-button-group" style="width: 48%">
+                            <button type="button" style="width: 100%" class="btn btn-default dropdown-toggle"
+                                    data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false"
+                                    onclick="myEquation()">
+                                我的公式
+                                <span class="caret"></span>
+                            </button>
+                            <ul id="myEquation" class="dropdown-menu" style="width: max-content;min-width: 150px">
+
+                            </ul>
+                        </div>
+
+                        <div id="templateEquationGroup" style="padding-top: 10px;">
+
+                            <div class="btn-group" role="group" aria-label="...">
+                                <!--<button type="button" class="btn btn-default">Left</button>-->
+                                <button type="button" class="btn btn-default">Middle</button>
+                                <button type="button" class="btn btn-default">Right</button>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+</div>
+
+
+<script src="jquery/jquery.js"></script>
+<script src="matrix/v1/mathquill.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<script src="js/dom-to-image.js"></script>
+
+<script>
+
+    function test(e) {
+
+
+    }
+
+//    var host = 'http://localhost/eqed';
+     var host = 'http://144.34.214.159/eqed';
+    //
+
+
+    var mathFieldSpan = document.getElementById('math-field');
+    var latexSpan = document.getElementById('latex');
+
+
+    var MQ = MathQuill.getInterface(2); // for backcompat
+    var mathField = MQ.MathField(mathFieldSpan, {
+        spaceBehavesLikeTab: true,
+        leftRightIntoCmdGoes: 'up',
+        restrictMismatchedBrackets: false,
+        sumStartsWithNEquals: true,
+        supSubsRequireOperand: true,
+        charsThatBreakOutOfSupSub: '+-=<>',
+        autoSubscriptNumerals: false,
+        autoCommands: 'pi theta sqrt sum',
+        autoOperatorNames: 'sin cos',
+        maxDepth: 10,
+        substituteTextarea: function () {
+            return document.createElement('textarea');
+        },
+        handlers: {
+            edit: function () { // useful event handlers
+                latexSpan.textContent = mathField.latex(); // simple API
+            }
+        }
+    });
+
+    $(function () {
+        isLogin();
+        initSymbol();
+        getTemplateEquation(1);
+    });
+
+    function getTemplateEquation(equationCategory) {
+        $.ajax({
+            url: host + '/api/pb/v1/equation-editor/template-equation/' + equationCategory,
+            type: 'GET',
+            success: function (data) {
+                shaderEquationList(data)
+            },
+            error: function (data) {
+                alert('网络错误');
+            }
+        })
+    }
+
+    function shaderEquationList(data) {
+        $('#templateEquationGroup').html('');
+        for (let i = 0; i < data.length; i++) {
+            let item = data[i];
+            let html = $(' <a class="thumbnail">' +
+                '<img src="' + item.imageBase64 + '" alt="' + item.equationName + '"></a>');
+            $('#templateEquationGroup').append(html);
+            $(html).click(function () {
+                mathField.write(item.equationLatex);
+                mathField.focus();
+            })
+        }
+
+    }
+
+    function initSymbol() {
+        $.ajax({
+            url: host + '/api/pb/v1/equation-editor/all-symbol',
+            type: 'GET',
+            success: function (data) {
+                for (let i = 0; i < data.length; i++) {
+                    let item = data[i];
+                    let html = $('<div class="symbol-button">' + item.symbolHtmlContent + '</div>');
+                    $('.symbol-button-group.group' + item.symbolCategory).append(html);
+                    $(html).click(function () {
+                        mathField.write(item.symbolLatex);
+                        mathField.focus();
+                        if (item.isLeft) {
+                            mathField.keystroke('Left')
+                        }
+                    })
+                }
+                $('.symbol-button-group').append('<div style="clear: both;"></div>');
+            },
+            error: function (data) {
+                alert('网络错误');
+            }
+        })
+    }
+
+    function registerOrLogin() {
+        if ($('#account').val() === '' || $('#password').val() === '') {
+            alert('账号密码不能为空');
+            return;
+        }
+
+        $.ajax({
+            url: host + '/api/pb/v1/user/register-or-login',
+            type: 'POST',
+            dataType: 'JSON',
+            xhrFields: {
+                withCredentials: true
+            },
+            crossDomain: true,
+            data: {
+                userName: $('#account').val(),
+                password: $('#password').val()
+            },
+            success: function (data) {
+                if (data.errorCode === 0) {
+                    // alert('succ')
+                    $('#loginPanel').modal('hide');
+                    $('#userName').text($('#account').val() + ',欢迎您');
+                    $('#userName').show();
+                    $('#loginButton').hide();
+                    $('#logoutButton').show();
+                } else {
+                    alert(data.errorMessage);
+                    $('#loginPanel').modal('hide');
+                }
+
+            },
+            error: function (data) {
+                alert('网络错误');
+            }
+        })
+    }
+
+    function saveEquation() {
+        if ($('#equationName').val() === '') {
+            alert('公式名称不能为空');
+            return
+        }
+        var node = document.getElementsByClassName('mq-root-block');
+        domtoimage.toPng(node[0])
+            .then(function (dataUrl) {
+                console.log(dataUrl);
+
+                $.ajax({
+                    url: host + '/api/pb/v1/user/add-equation',
+                    type: 'POST',
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    crossDomain: true,
+                    data: {
+                        equationName: $('#equationName').val(),
+                        equationLatex: mathField.latex(),
+                        imageBase64: dataUrl
+                    },
+                    success: function (data) {
+                        if (data.errorCode === 0) {
+                            alert('succ')
+                        } else {
+                            alert(data.errorMessage);
+                        }
+
+                    },
+                    error: function (data) {
+                        alert('网络错误');
+                    }
+                });
+
+            })
+            .catch(function (error) {
+                console.error('oops, something went wrong!', error);
+            });
+
+
+
+    }
+
+    function myEquation() {
+        $.ajax({
+            url: host + '/api/pb/v1/user/equation',
+            type: 'GET',
+            xhrFields: {
+                withCredentials: true
+            },
+            crossDomain: true,
+            data: {
+                equationName: $('#equationName').val(),
+                equationLatex: mathField.latex()
+            },
+            success: function (data) {
+                if (data.baseResponse.errorCode === 0) {
+                    $('#myEquation').html('');
+                    for (let i = 0; i < data.equations.length; i++) {
+                        let item = data.equations[i];
+                        let html = $('<li><span >' + item.equationName + '</span></li>');
+                        html.click(function () {
+                            mathField.write(item.equationLatex);
+                            mathField.focus();
+                        });
+                        let button = $('<button type="button" class="btn btn-xs">删除</button>');
+                        button.click(function () {
+                            deleteEquation(item.id);
+                            event.stopPropagation()
+                        });
+                        html.append(button);
+                        $('#myEquation').append(html);
+
+                        shaderEquationList(data.equations)
+
+                    }
+
+                } else {
+                    alert(data.baseResponse.errorMessage);
+                }
+
+            },
+            error: function (data) {
+                alert('网络错误');
+            }
+        })
+    }
+
+    function deleteEquation(equationId) {
+        $.ajax({
+            url: host + '/api/pb/v1/user/delete-equation',
+            type: 'POST',
+            xhrFields: {
+                withCredentials: true
+            },
+            crossDomain: true,
+            data: {
+                equationId: equationId
+            },
+            success: function (data) {
+                if (data.errorCode === 0) {
+                    alert('succ')
+                    myEquation();
+                } else {
+                    alert(data.errorMessage);
+                }
+
+            },
+            error: function (data) {
+                alert('网络错误');
+            }
+        })
+    }
+
+    function logout() {
+        $.ajax({
+            url: host + '/api/pb/v1/user/logout',
+            type: 'POST',
+            xhrFields: {
+                withCredentials: true
+            },
+            crossDomain: true,
+            success: function (data) {
+                if (data.errorCode === 0) {
+                    $('#userName').text('');
+                    $('#userName').hide();
+                    $('#logoutButton').hide();
+                    $('#loginButton').show();
+                }
+            },
+            error: function (data) {
+                alert('网络错误');
+            }
+        })
+    }
+
+    function isLogin() {
+        $.ajax({
+            url: host + '/api/pb/v1/user/is-login',
+            type: 'GET',
+            xhrFields: {
+                withCredentials: true
+            },
+            crossDomain: true,
+            success: function (data) {
+                if (data.baseResponse.errorCode === 0) {
+                    $('#userName').text(data.userName + ',欢迎您');
+                    $('#userName').show();
+                    $('#logoutButton').show();
+                    $('#loginButton').hide();
+                }
+
+            },
+            error: function (data) {
+                alert('网络错误');
+            }
+        })
+    }
+
+    function test() {
+
+
+
+//        mathField.write($('#equationName').val());
+
+
+        var node = document.getElementsByClassName('mq-root-block');
+
+        domtoimage.toPng(node[0])
+            .then(function (dataUrl) {
+                console.log(dataUrl)
+                document.body.appendChild(img);
+            })
+            .catch(function (error) {
+                console.error('oops, something went wrong!', error);
+            });
+
+    }
+
+</script>
+
+</body>
+</html>

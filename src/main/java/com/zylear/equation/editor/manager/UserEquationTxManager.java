@@ -25,7 +25,7 @@ public class UserEquationTxManager {
     private UserEquationService userEquationService;
 
     @Transactional(DataSourceEquationEditorConfig.TX_MANAGER)
-    public void addUserEquation(Integer userId, String equationName, String equationLatex) {
+    public void addUserEquation(Integer userId, String equationName, String equationLatex, String imageBase64) {
         Equation equation = new Equation();
         equation.setEquationType(EquationType.user_equation.getValue().byteValue());
         equation.setEquationCategory((byte) 1);
@@ -35,6 +35,7 @@ public class UserEquationTxManager {
         equation.setIsDeleted(false);
         equation.setCreateTime(new Date());
         equation.setLastUpdateTime(new Date());
+        equation.setImageBase64(imageBase64);
         equationService.insert(equation);
         UserEquation userEquation = new UserEquation();
         userEquation.setUserId(userId);

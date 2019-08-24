@@ -13,13 +13,14 @@
     </resultMap>
     <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.zylear.equation.editor.domain.Equation">
         <result column="equation_latex" jdbcType="LONGVARCHAR" property="equationLatex"/>
+        <result column="image_base64" jdbcType="LONGVARCHAR" property="imageBase64"/>
     </resultMap>
     <sql id="Base_Column_List">
         id, equation_type, equation_category, equation_name, equation_img, is_deleted, create_time,
         last_update_time
     </sql>
     <sql id="Blob_Column_List">
-        equation_latex
+        equation_latex,image_base64
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
         select
@@ -37,12 +38,12 @@
             parameterType="com.zylear.equation.editor.domain.Equation">
         INSERT INTO t_equation (id, equation_type, equation_category,
                                 equation_name, equation_img, is_deleted,
-                                create_time, last_update_time, equation_latex
+                                create_time, last_update_time, equation_latex, image_base64
         )
         VALUES (#{id,jdbcType=INTEGER}, #{equationType,jdbcType=TINYINT}, #{equationCategory,jdbcType=TINYINT},
                 #{equationName,jdbcType=VARCHAR}, #{equationImg,jdbcType=VARCHAR}, #{isDeleted,jdbcType=TINYINT},
                 #{createTime,jdbcType=TIMESTAMP}, #{lastUpdateTime,jdbcType=TIMESTAMP},
-                #{equationLatex,jdbcType=LONGVARCHAR}
+                #{equationLatex,jdbcType=LONGVARCHAR}, #{imageBase64,jdbcType=LONGVARCHAR}
         )
     </insert>
     <insert id="insertSelective" parameterType="com.zylear.equation.editor.domain.Equation">
