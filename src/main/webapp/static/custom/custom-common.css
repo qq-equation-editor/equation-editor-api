@@ -77,17 +77,28 @@
     margin-right: 20px;
 }
 
-#myEquation{
+#myEquation {
     padding: 0;
 }
 
-#myEquation li{
+#myEquation li {
     min-height: 60px;
-    border-bottom:1px solid #cccdcf
+    border-bottom: 1px solid #cccdcf
 }
 
-#math-field .mq-root-block{
+#math-field .mq-root-block {
     padding-top: 10px;
     min-width: 10%;
 }
 
+#math-field .thumbnail {
+    max-height: 150px;
+}
+
+/*#math-field .thumbnail:hover{*/
+/*color: black;*/
+/*}*/
+
+.custom-hover:hover {
+    background-color: #5bc0de;
+}

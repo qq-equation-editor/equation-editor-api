@@ -95,7 +95,7 @@
                         <h3 class="panel-title">选择符号</h3>
                     </div>
                     <div class="panel-body"><!--style="background-color: #cccdcf;"-->
-                        <p>LaTeX of what you typed: <span id="latex"></span></p>
+                        <!--<p>LaTeX of what you typed: <span id="latex"></span></p>-->
 
                         <div>
 
@@ -158,12 +158,12 @@
                                 </div>
 
                             </div>
-                            <div class="col-sm-2 ">
+                            <!--<div class="col-sm-2 ">-->
 
-                                <div class="text-left" style="padding-top: 7px;/*margin-left:-20px*/ ">
-                                    <button onclick="test()" type="button" class="btn btn-info">test</button>
-                                </div>
-                            </div>
+                            <!--<div class="text-left" style="padding-top: 7px;/*margin-left:-20px*/ ">-->
+                            <!--<button onclick="test()" type="button" class="btn btn-info">test</button>-->
+                            <!--</div>-->
+                            <!--</div>-->
 
                         </div>
 
@@ -200,26 +200,24 @@
                         </div>
 
                         <!-- Single button -->
-                        <div class="btn-group custom-button-group" style="width: 48%">
-                            <button type="button" style="width: 100%" class="btn btn-default dropdown-toggle"
-                                    data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false"
+                        <div class="btn-group" style="width: 48%">
+                            <button type="button" style="width: 100%" class="btn btn-default"
                                     onclick="myEquation()">
                                 我的公式
-                                <span class="caret"></span>
+                                <!--<span class="caret"></span>-->
                             </button>
-                            <ul id="myEquation" class="dropdown-menu" style="width: max-content;min-width: 150px">
+                            <!--<ul id="myEquation" class="dropdown-menu" style="width: max-content;min-width: 150px">-->
 
-                            </ul>
+                            <!--</ul>-->
                         </div>
 
-                        <div id="templateEquationGroup" style="padding-top: 10px;">
+                        <div id="templateEquationGroup" style="padding-top: 10px; overflow-y:auto; height: 670px">
 
-                            <div class="btn-group" role="group" aria-label="...">
-                                <!--<button type="button" class="btn btn-default">Left</button>-->
-                                <button type="button" class="btn btn-default">Middle</button>
-                                <button type="button" class="btn btn-default">Right</button>
-                            </div>
+                            <!--<div class="btn-group" role="group" aria-label="...">-->
+                            <!--&lt;!&ndash;<button type="button" class="btn btn-default">Left</button>&ndash;&gt;-->
+                            <!--<button type="button" class="btn btn-default">Middle</button>-->
+                            <!--<button type="button" class="btn btn-default">Right</button>-->
+                            <!--</div>-->
 
                         </div>
 
@@ -251,7 +249,7 @@
     }
 
 //    var host = 'http://localhost/eqed';
-     var host = 'http://144.34.214.159/eqed';
+        var host = 'http://144.34.214.159/eqed';
     //
 
 
@@ -276,7 +274,7 @@
         },
         handlers: {
             edit: function () { // useful event handlers
-                latexSpan.textContent = mathField.latex(); // simple API
+//                latexSpan.textContent = mathField.latex(); // simple API
             }
         }
     });
@@ -292,7 +290,7 @@
             url: host + '/api/pb/v1/equation-editor/template-equation/' + equationCategory,
             type: 'GET',
             success: function (data) {
-                shaderEquationList(data)
+                shaderEquationList(data, false)
             },
             error: function (data) {
                 alert('网络错误');
@@ -300,18 +298,31 @@
         })
     }
 
-    function shaderEquationList(data) {
+    function shaderEquationList(data, showDeleteButton) {
         $('#templateEquationGroup').html('');
         for (let i = 0; i < data.length; i++) {
             let item = data[i];
-            let html = $(' <a class="thumbnail">' +
+            let html = $('<a class="thumbnail">' +
                 '<img src="' + item.imageBase64 + '" alt="' + item.equationName + '"></a>');
             $('#templateEquationGroup').append(html);
             $(html).click(function () {
                 mathField.write(item.equationLatex);
                 mathField.focus();
             })
+
+            if (showDeleteButton) {
+                let button = $('<button type="button" style="color: black" class="btn btn-xs custom-hover">删除</button>');
+                button.click(function (event) {
+                    deleteEquation(item.id);
+                    event.stopPropagation()
+                });
+                let div = $('<div class="text-right"></div>');
+                div.append(button);
+                html.append(div);
+            }
+
         }
+        $('#templateEquationGroup').append('<div style="clear: both"></div>');
 
     }
 
@@ -402,7 +413,7 @@
                     },
                     success: function (data) {
                         if (data.errorCode === 0) {
-                            alert('succ')
+                            alert('添加成功')
                         } else {
                             alert(data.errorMessage);
                         }
@@ -417,7 +428,6 @@
             .catch(function (error) {
                 console.error('oops, something went wrong!', error);
             });
-
 
 
     }
@@ -438,21 +448,21 @@
                 if (data.baseResponse.errorCode === 0) {
                     $('#myEquation').html('');
                     for (let i = 0; i < data.equations.length; i++) {
-                        let item = data.equations[i];
-                        let html = $('<li><span >' + item.equationName + '</span></li>');
-                        html.click(function () {
-                            mathField.write(item.equationLatex);
-                            mathField.focus();
-                        });
-                        let button = $('<button type="button" class="btn btn-xs">删除</button>');
-                        button.click(function () {
-                            deleteEquation(item.id);
-                            event.stopPropagation()
-                        });
-                        html.append(button);
-                        $('#myEquation').append(html);
+//                        let item = data.equations[i];
+//                        let html = $('<li><span >' + item.equationName + '</span></li>');
+//                        html.click(function () {
+//                            mathField.write(item.equationLatex);
+//                            mathField.focus();
+//                        });
+//                        let button = $('<button type="button" class="btn btn-xs">删除</button>');
+//                        button.click(function () {
+//                            deleteEquation(item.id);
+//                            event.stopPropagation()
+//                        });
+//                        html.append(button);
+//                        $('#myEquation').append(html);
 
-                        shaderEquationList(data.equations)
+                        shaderEquationList(data.equations, true)
 
                     }
 
@@ -468,6 +478,10 @@
     }
 
     function deleteEquation(equationId) {
+        if (!confirm('你确定要删除此公式吗')) {
+            return;
+        }
+
         $.ajax({
             url: host + '/api/pb/v1/user/delete-equation',
             type: 'POST',
@@ -480,7 +494,7 @@
             },
             success: function (data) {
                 if (data.errorCode === 0) {
-                    alert('succ')
+                    alert('删除成功')
                     myEquation();
                 } else {
                     alert(data.errorMessage);
