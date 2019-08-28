@@ -243,13 +243,10 @@
 
 <script>
 
-    function test(e) {
+    var userIsLogin = false;
 
-
-    }
-
-//    var host = 'http://localhost/eqed';
-        var host = 'http://144.34.214.159/eqed';
+    //    var host = 'http://localhost/eqed';
+    var host = 'http://144.34.214.159/eqed';
     //
 
 
@@ -274,6 +271,10 @@
         },
         handlers: {
             edit: function () { // useful event handlers
+                if (!userIsLogin) {
+//                    mathField.latex('');
+                    window.alert('请先登录')
+                }
 //                latexSpan.textContent = mathField.latex(); // simple API
             }
         }
@@ -306,8 +307,12 @@
                 '<img src="' + item.imageBase64 + '" alt="' + item.equationName + '"></a>');
             $('#templateEquationGroup').append(html);
             $(html).click(function () {
-                mathField.write(item.equationLatex);
-                mathField.focus();
+                if (!userIsLogin) {
+                    alert('请先登录')
+                } else {
+                    mathField.write(item.equationLatex);
+                    mathField.focus();
+                }
             })
 
             if (showDeleteButton) {
@@ -336,10 +341,14 @@
                     let html = $('<div class="symbol-button">' + item.symbolHtmlContent + '</div>');
                     $('.symbol-button-group.group' + item.symbolCategory).append(html);
                     $(html).click(function () {
-                        mathField.write(item.symbolLatex);
-                        mathField.focus();
-                        if (item.isLeft) {
-                            mathField.keystroke('Left')
+                        if (!userIsLogin) {
+                            alert('请先登录')
+                        } else {
+                            mathField.write(item.symbolLatex);
+                            mathField.focus();
+                            if (item.isLeft) {
+                                mathField.keystroke('Left')
+                            }
                         }
                     })
                 }
@@ -377,6 +386,7 @@
                     $('#userName').show();
                     $('#loginButton').hide();
                     $('#logoutButton').show();
+                    userIsLogin = true;
                 } else {
                     alert(data.errorMessage);
                     $('#loginPanel').modal('hide');
@@ -521,6 +531,7 @@
                     $('#userName').hide();
                     $('#logoutButton').hide();
                     $('#loginButton').show();
+                    userIsLogin = false;
                 }
             },
             error: function (data) {
@@ -543,6 +554,7 @@
                     $('#userName').show();
                     $('#logoutButton').show();
                     $('#loginButton').hide();
+                    userIsLogin = true;
                 }
 
             },
