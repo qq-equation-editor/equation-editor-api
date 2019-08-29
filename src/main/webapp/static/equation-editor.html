@@ -149,7 +149,14 @@
                         <div id="math-field" class="equation-editor" style="font-size: 25px"></div>
 
                         <div class="form-group">
-                            <div class="col-sm-2  col-sm-offset-8 control-label">
+                            <div class="col-sm-2 ">
+                                <div class="text-left" style="padding-top: 7px;/*margin-left:-20px*/ ">
+                                    <button onclick="downloadImg()" type="button" class="btn btn-info">下载图片</button>
+                                </div>
+
+                            </div>
+
+                            <div class="col-sm-2  col-sm-offset-6 control-label">
                                 <input id="equationName" type="text" class="form-control" placeholder="输入公式名称">
                             </div>
                             <div class="col-sm-2 ">
@@ -190,12 +197,18 @@
                                 常用公式 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a onclick="getTemplateEquation(1)">算数定律</a></li>
-                                <li><a onclick="getTemplateEquation(2)">应用题公式</a></li>
-                                <li><a onclick="getTemplateEquation(3)">乘法于因式分解</a></li>
-                                <li><a onclick="getTemplateEquation(4)">解析几何</a></li>
-                                <li><a onclick="getTemplateEquation(5)">一元二次方程</a></li>
-
+                                <li><a onclick="getTemplateEquation(1)">一年级</a></li>
+                                <li><a onclick="getTemplateEquation(2)">二年级</a></li>
+                                <li><a onclick="getTemplateEquation(3)">三年级</a></li>
+                                <li><a onclick="getTemplateEquation(4)">四年级</a></li>
+                                <li><a onclick="getTemplateEquation(5)">五年级</a></li>
+                                <li><a onclick="getTemplateEquation(6)">六年级</a></li>
+                                <li><a onclick="getTemplateEquation(7)">初一</a></li>
+                                <li><a onclick="getTemplateEquation(8)">初二</a></li>
+                                <li><a onclick="getTemplateEquation(9)">初三</a></li>
+                                <li><a onclick="getTemplateEquation(10)">高一</a></li>
+                                <li><a onclick="getTemplateEquation(11)">高二</a></li>
+                                <li><a onclick="getTemplateEquation(12)">高三</a></li>
                             </ul>
                         </div>
 
@@ -211,7 +224,7 @@
                             <!--</ul>-->
                         </div>
 
-                        <div id="templateEquationGroup" style="padding-top: 10px; overflow-y:auto; height: 670px">
+                        <div id="templateEquationGroup" style="margin-top: 10px; overflow-y:auto; height: 670px">
 
                             <!--<div class="btn-group" role="group" aria-label="...">-->
                             <!--&lt;!&ndash;<button type="button" class="btn btn-default">Left</button>&ndash;&gt;-->
@@ -237,17 +250,18 @@
 
 
 <script src="jquery/jquery.js"></script>
-<script src="matrix/v1/mathquill.js"></script>
+<script src="matrix/v1/mathquill.min.js"></script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
-<script src="js/dom-to-image.js"></script>
+<script src="js/dom-to-image.min.js"></script>
+<!--<script src="js/FileSaver.min.js"></script>-->
 
 <script>
 
     var userIsLogin = false;
     var isAlert = true;
 
-    //    var host = 'http://localhost/eqed';
-    var host = 'http://144.34.214.159/eqed';
+//    var host = 'http://localhost/eqed';
+        var host = 'http://144.34.214.159/eqed';
     //
 
 
@@ -272,15 +286,15 @@
         },
         handlers: {
             edit: function () { // useful event handlers
-                if (!userIsLogin) {
-                    if(isAlert) {
-                        isAlert = false;
-                        mathField.latex('');
-                        isAlert = true;
-                        window.alert('请先登录')
-                    }
-
-                }
+//                if (!userIsLogin) {
+//                    if(isAlert) {
+//                        isAlert = false;
+//                        mathField.latex('');
+//                        isAlert = true;
+//                        window.alert('请先登录')
+//                    }
+//
+//                }
 //                latexSpan.textContent = mathField.latex(); // simple API
             }
         }
@@ -309,8 +323,9 @@
         $('#templateEquationGroup').html('');
         for (let i = 0; i < data.length; i++) {
             let item = data[i];
-            let html = $('<a class="thumbnail">' +
-                '<img src="' + item.imageBase64 + '" alt="' + item.equationName + '"></a>');
+            let html = $('<a data-toggle="tooltip" data-placement="left" title="'
+                + item.equationName + '" class="thumbnail">' +
+                '<img src="' + item.imageBase64 + '"></a>');
             $('#templateEquationGroup').append(html);
             $(html).click(function () {
                 if (!userIsLogin) {
@@ -463,7 +478,7 @@
             success: function (data) {
                 if (data.baseResponse.errorCode === 0) {
                     $('#myEquation').html('');
-                    for (let i = 0; i < data.equations.length; i++) {
+//                    for (let i = 0; i < data.equations.length; i++) {
 //                        let item = data.equations[i];
 //                        let html = $('<li><span >' + item.equationName + '</span></li>');
 //                        html.click(function () {
@@ -478,9 +493,9 @@
 //                        html.append(button);
 //                        $('#myEquation').append(html);
 
-                        shaderEquationList(data.equations, true)
+                    shaderEquationList(data.equations, true)
 
-                    }
+//                    }
 
                 } else {
                     alert(data.baseResponse.errorMessage);
@@ -588,6 +603,19 @@
                 console.error('oops, something went wrong!', error);
             });
 
+    }
+
+
+    function downloadImg() {
+
+        var node = document.getElementsByClassName('mq-root-block');
+        domtoimage.toPng(node[0])
+            .then(function (dataUrl) {
+                var link = document.createElement('a');
+                link.download = 'img.png';
+                link.href = dataUrl;
+                link.click();
+            });
     }
 
 </script>
