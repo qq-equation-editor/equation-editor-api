@@ -244,6 +244,7 @@
 <script>
 
     var userIsLogin = false;
+    var isAlert = true;
 
     //    var host = 'http://localhost/eqed';
     var host = 'http://144.34.214.159/eqed';
@@ -272,8 +273,13 @@
         handlers: {
             edit: function () { // useful event handlers
                 if (!userIsLogin) {
-//                    mathField.latex('');
-                    window.alert('请先登录')
+                    if(isAlert) {
+                        isAlert = false;
+                        mathField.latex('');
+                        isAlert = true;
+                        window.alert('请先登录')
+                    }
+
                 }
 //                latexSpan.textContent = mathField.latex(); // simple API
             }
